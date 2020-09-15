@@ -120,7 +120,9 @@ func process(dst interface{}, src interface{}, args ...Options) error {
 		}
 
 		// Force option for empty interfaces and nullable types
-		_, force := tagOptions[ForceOptionName]
+		//_, force := tagOptions[ForceOptionName]
+		//I am going to test force by default, to avoid have to annotate all optional fields
+		force := true
 
 		// Valuer -> ptr
 		if isNullableType(srcFieldType.Type) && dstFieldValue.Kind() == reflect.Ptr && force {
@@ -164,6 +166,8 @@ func process(dst interface{}, src interface{}, args ...Options) error {
 				rv := reflect.ValueOf(v)
 				if rv.Type().AssignableTo(dstFieldType.Type) {
 					dstFieldValue.Set(rv)
++				} else if rv.Type().ConvertibleTo(dstFieldType.Type) {
++					dstFieldValue.Set(rv.Convert(dstFieldType.Type))
 				}
 			}
 
