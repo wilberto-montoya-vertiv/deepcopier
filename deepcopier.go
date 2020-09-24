@@ -166,8 +166,8 @@ func process(dst interface{}, src interface{}, args ...Options) error {
 				rv := reflect.ValueOf(v)
 				if rv.Type().AssignableTo(dstFieldType.Type) {
 					dstFieldValue.Set(rv)
-+				} else if rv.Type().ConvertibleTo(dstFieldType.Type) {
-+					dstFieldValue.Set(rv.Convert(dstFieldType.Type))
+				} else if rv.Type().ConvertibleTo(dstFieldType.Type) {
+					dstFieldValue.Set(rv.Convert(dstFieldType.Type))
 				}
 			}
 
